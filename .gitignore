@@ -13,12 +13,15 @@ target/
 # Eclipse #
 
 .settings/
-
 .metadata/
-
 .classpath
-
 .project
+.myeclipse
+.classpath.bak
+.classpath.mine
+.eclipse-pmd
+*.properties
+classes/
 
 Servers/
 
