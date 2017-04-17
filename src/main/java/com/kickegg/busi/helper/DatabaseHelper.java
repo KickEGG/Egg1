@@ -23,20 +23,24 @@ import java.util.Properties;
 
 /**
  * 数据库助手类
+ *   如何能让Connection对开发人员透明？也就是说，如何隐藏掉创建与关闭Connection的代码呢？
+ * 为了确保一个线程只有一个Connection，我们可以使用ThreadLocal来存放本地线程变量。
+ * 也就是说，将当前线程中的Connection放入ThreadLocal中存起来，这些Connection一定不会出现不安全问题，
+ * 可以将ThreadLocal理解为一个隔离线程的容器。
  */
 public final class DatabaseHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseHelper.class);
 
-    private static final ThreadLocal<Connection> CONNECTION_HOLDER;
-
+    //查询
     private static final QueryRunner QUERY_RUNNER;
-
+    //保证一个线程一个Connection，线程安全
+    private static final ThreadLocal<Connection> CONNECTION_HOLDER ;
+    //线程池
     private static final BasicDataSource DATA_SOURCE;
 
     static {
         CONNECTION_HOLDER = new ThreadLocal<Connection>();
-
         QUERY_RUNNER = new QueryRunner();
 
         Properties conf = PropsUtil.loadProps("config.properties");
@@ -51,6 +55,9 @@ public final class DatabaseHelper {
         DATA_SOURCE.setUsername(username);
         DATA_SOURCE.setPassword(password);
     }
+
+    private static final QueryRunner QUERY_RUNNER=new QueryRunner();
+    private static final ThreadLocal<Connection> CONNECTION_HOLDER = new ThreadLocal<Connection>();
 
     /**
      * 获取数据库连接
@@ -71,12 +78,30 @@ public final class DatabaseHelper {
     }
 
     /**
+     * 关闭数据库连接
+     */
+    public static void closeConnection() {
+        Connection conn=CONNECTION_HOLDER.get();//1
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                LOGGER.error("close connection failure", e);
+                throw new RuntimeException(e);
+            }finally {
+                CONNECTION_HOLDER.remove();//3
+            }
+        }
+    }
+
+    /**
      * 执行查询语句
      */
     public List<Map<String, Object>> executeQuery(String sql, Object... params) {
         List<Map<String, Object>> result;
         try {
             Connection conn = getConnection();
+            // MapListHandler() 返回list对象
             result = QUERY_RUNNER.query(conn, sql, new MapListHandler(), params);
         } catch (Exception e) {
             LOGGER.error("execute query failure", e);
