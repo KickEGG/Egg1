@@ -1,7 +1,7 @@
 package com.kickegg.busi.helper;
 
-import com.kickegg.busi.util.CollectionUtil;
-import com.kickegg.busi.util.PropsUtil;
+import com.kickegg.util.CollectionUtil;
+import com.kickegg.util.PropsUtil;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
@@ -42,7 +42,7 @@ public final class DatabaseHelper {
     static {
         CONNECTION_HOLDER = new ThreadLocal<Connection>();
         QUERY_RUNNER = new QueryRunner();
-
+        // 初始化BasicDataSource
         Properties conf = PropsUtil.loadProps("config.properties");
         String driver = conf.getProperty("jdbc.driver");
         String url = conf.getProperty("jdbc.url");
@@ -56,8 +56,6 @@ public final class DatabaseHelper {
         DATA_SOURCE.setPassword(password);
     }
 
-    private static final QueryRunner QUERY_RUNNER=new QueryRunner();
-    private static final ThreadLocal<Connection> CONNECTION_HOLDER = new ThreadLocal<Connection>();
 
     /**
      * 获取数据库连接

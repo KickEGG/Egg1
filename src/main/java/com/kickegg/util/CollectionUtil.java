@@ -1,4 +1,4 @@
-package com.kickegg.busi.util;
+package com.kickegg.util;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;

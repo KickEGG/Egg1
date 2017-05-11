@@ -1,4 +1,4 @@
-package com.kickegg.busi.util;
+package com.kickegg.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -3,6 +3,7 @@ package com.kickegg.busi.test;
 import com.kickegg.busi.helper.DatabaseHelper;
 import com.kickegg.busi.model.Customer;
 import com.kickegg.busi.service.CustomerService;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,6 +46,9 @@ public class CustomerServiceTest {
         fieldMap.put("contact", "John");
         fieldMap.put("telephone", "13512345678");
         boolean result = customerService.createCustomer(fieldMap);
+        System.out.println("result=" + result);
+        //result = (3==2);
+        //Assert.assertEquals(2, 3);
         Assert.assertTrue(result);
     }
 

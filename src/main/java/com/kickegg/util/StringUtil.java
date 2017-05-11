@@ -1,4 +1,4 @@
-package com.kickegg.busi.util;
+package com.kickegg.util;
 
 import org.apache.commons.lang3.StringUtils;
 

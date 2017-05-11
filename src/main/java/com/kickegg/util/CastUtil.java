@@ -1,4 +1,4 @@
-package com.kickegg.busi.util;
+package com.kickegg.util;
 
 /**
  * 转型操作工具类
