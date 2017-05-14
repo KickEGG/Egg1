@@ -15,9 +15,10 @@ public class Request {
      */
     private String requestPath;
 
-    public Request(String requestPath, String requestMethod) {
-        this.requestPath = requestPath;
+    public Request(String requestMethod,String requestPath ) {
         this.requestMethod = requestMethod;
+        this.requestPath = requestPath;
+
     }
 
     public String getRequestMethod() {
