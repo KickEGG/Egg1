@@ -13,7 +13,7 @@ import java.util.Map;
  * <p>
  * Created by 44935 on 2017-05-14.
  */
-public final class IocHelp {
+public final class IocHelper {
     static {
         //获取所有bean类与bean之间的映射关系（简称bean map）
         Map<Class<?>, Object> beanMap = BeanHelper.getBeanMap();

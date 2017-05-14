@@ -7,7 +7,7 @@ import org.apache.commons.lang3.ArrayUtils;
  *
  * Created by 44935 on 2017-05-14.
  */
-public final class ArraysUtil {
+public final class ArrayUtil {
     /**
      * 判断数组是否非空
      */
