@@ -1,4 +1,4 @@
-package com.kickegg.time;
+package com.kickegg.hello;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
