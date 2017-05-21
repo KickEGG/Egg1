@@ -54,7 +54,7 @@ public final class ClassUtil {
      * <p/>
      * 根据包名并将其转化为文件路径
      * 读取class文件或jar 包
-     * 获取指定的雷鸣去加载类。
+     * 获取指定的类名并加载类。
      *
      * @param packageName
      * @return
@@ -100,21 +100,40 @@ public final class ClassUtil {
         return classSet;
     }
 
+    /**
+     * 获取指定包路径下面的所有类
+     * <p/>
+     * 根据包名并将其转化为文件路径
+     * 读取class文件或jar 包
+     * 获取指定的类名并加载类。
+     * <p>
+     * 循环添加
+     *
+     * @param classSet,
+     * @param packagePath
+     * @param packageName
+     * @return
+     */
     public static void addClass(Set<Class<?>> classSet, String packagePath, String packageName) {
+        // 加载指定包名下所有的类
         File[] files = new File(packageName).listFiles(new FileFilter() {
             public boolean accept(File file) {
                 return (file.isFile() && file.getName().endsWith(".class")) || file.isDirectory();
             }
         });
+
         for (File file : files) {
             String fileName = file.getName();
+            // 如果获取的file是.class文件
             if (file.isFile()) {
                 String className = fileName.substring(0, fileName.lastIndexOf("."));
                 if (StringUtil.isNotEmpty(packageName)) {
+                    // 设置类名=包名+类名
                     className = packageName + "." + className;
                 }
+                // 保存至set
                 doAddClass(classSet, className);
-            } else {
+            } else {//当file是文件路径时,循环调用addclass
                 String subPackagePath = fileName;
                 if (StringUtil.isNotEmpty(packageName)) {
                     subPackagePath = packagePath + "/" + subPackagePath;
@@ -128,6 +147,13 @@ public final class ClassUtil {
         }
     }
 
+    /**
+     * class存入set
+     *
+     * @param classSet
+     * @param className
+     * @return
+     */
     private static void doAddClass(Set<Class<?>> classSet, String className) {
         Class<?> clazz = loadClass(className, false);
         classSet.add(clazz);
