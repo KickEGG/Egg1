@@ -10,6 +10,8 @@ import com.kickegg.framework.proxy.impl.ProxyChain;
 public interface Proxy {
 
     /**
+     * 实现类中将提供横切逻辑
+     *
      * 执行链式代理
      */
     Object doProxy(ProxyChain proxyChain) throws Throwable;

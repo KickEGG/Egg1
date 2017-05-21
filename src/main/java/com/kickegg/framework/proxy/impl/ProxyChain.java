@@ -8,38 +8,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 代理练
- *
+ * 代理链
+ * <p>
  * Created by 44935 on 2017-05-21.
  */
 public class ProxyChain {
 
-    private final Class<?> targetClass;
-    private final Object targetObject;
-    private final Method targerMethod;
-    private final MethodProxy methodProxy;
-    private final Object[] methodParams;
+    private final Class<?> targetClass;// 目标类
+    private final Object targetObject;// 目标对象
+    private final Method targerMethod;// 目标方法
+    private final MethodProxy methodProxy;// 方法代理类@cglib
+    private final Object[] methodParams;// 方法参数
 
-    private List<Proxy> proxyList = new ArrayList<Proxy>();
-    private int proxyIndex = 0;
+    private List<Proxy> proxyList = new ArrayList<Proxy>();// 代理列表
+    private int proxyIndex = 0; // 代理索引,计数器
 
-    public Object doProxyChain() throws Throwable{
-        Object methodResult;
-        if(proxyIndex < proxyList.size()){
-            methodResult = proxyList.get(proxyIndex++).doProxy(this);
-        }else{
-            methodResult = methodProxy.invokeSuper(targetObject,methodParams);
-        }
-        return  methodResult;
-    }
-
-    public ProxyChain(Class<?> targetClass, Object targetObject, Method targerMethod, MethodProxy methodProxy, Object[] methodParams) {
+    public ProxyChain(Class<?> targetClass, Object targetObject,
+                      Method targerMethod, MethodProxy methodProxy, Object[] methodParams, List<Proxy> proxyList) {
         this.targetClass = targetClass;
         this.targetObject = targetObject;
         this.targerMethod = targerMethod;
         this.methodProxy = methodProxy;
         this.methodParams = methodParams;
+        this.proxyList = proxyList;
     }
+
+    /**
+     * @return
+     * @throws Throwable
+     */
+    public Object doProxyChain() throws Throwable {
+        Object methodResult;
+        if (proxyIndex < proxyList.size()) {
+            // 如果未达到list.size(),从list中取出对象调用Proxy接口的doProxy方法
+            methodResult = proxyList.get(proxyIndex++).doProxy(this);
+        } else {
+            // 反之执行目标对象的业务逻辑
+            methodResult = methodProxy.invokeSuper(targetObject, methodParams);
+        }
+        return methodResult;
+    }
+
 
     public Class<?> getTargetClass() {
         return targetClass;
