@@ -35,12 +35,18 @@ public final class BeanHelper {
 
     /**
      * 获取bean实例
-
      */
     public static <T> T getBean(Class<T> cls){
         if (!BEAN_MAP.containsKey(cls)) {
             throw new RuntimeException("can not get bean by class");
         }
         return (T) BEAN_MAP.get(cls);
+    }
+
+    /**
+     * 设置bean实例,将bean实例放入Bean map中
+     */
+    public static void setBean(Class<?> cls,Object obj){
+        BEAN_MAP.put(cls, obj);
     }
 }

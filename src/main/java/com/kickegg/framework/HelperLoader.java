@@ -1,9 +1,6 @@
 package com.kickegg.framework;
 
-import com.kickegg.framework.helper.BeanHelper;
-import com.kickegg.framework.helper.ClassHelper;
-import com.kickegg.framework.helper.ControllerHelper;
-import com.kickegg.framework.helper.IocHelper;
+import com.kickegg.framework.helper.*;
 import com.kickegg.framework.util.ClassUtil;
 
 /**
@@ -15,8 +12,10 @@ import com.kickegg.framework.util.ClassUtil;
 public final class HelperLoader {
     public static void init() {
         Class<?>[] classList = {
+                // 注意加载顺序
                 ClassHelper.class,
                 BeanHelper.class,
+                AopHelper.class,//aop在前，先要通过aop获取代理对象，再交给ioc进行依赖注入
                 IocHelper.class,
                 ControllerHelper.class};
         for (Class<?> cls : classList) {

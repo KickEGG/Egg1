@@ -4,6 +4,7 @@ import com.kickegg.framework.annotation.Controller;
 import com.kickegg.framework.annotation.Service;
 import com.kickegg.framework.util.ClassUtil;
 
+import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -67,5 +68,32 @@ public final class ClassHelper {
         beanClassesSet.addAll(getServiceClassSet());
         beanClassesSet.addAll(getControllerClassSet());
         return beanClassesSet;
+    }
+
+    /**
+     * 获取应用包名下某父类（或接口）的所有子类（或实现类）
+     */
+    public static Set<Class<?>> getClassSetBySuper(Class<?> superClass){
+        Set<Class<?>> classSet = new HashSet<Class<?>>();
+        for(Class<?> cls:CLASS_SET){
+            //TODO superClass.isAssignableFrom()?
+            if(superClass.isAssignableFrom(cls)&&!superClass.equals(cls)){
+                classSet.add(cls);
+            }
+        }
+        return classSet;
+    }
+
+    /**
+     * 获取应用包名下带有注解的所有类
+     */
+    public static Set<Class<?>> getClassSetByAnnotation(Class<? extends Annotation> annotationClass) {
+        Set<Class<?>> classSet = new HashSet<Class<?>>();
+        for (Class<?> cls : CLASS_SET) {
+            if (cls.isAnnotationPresent(annotationClass)) {
+                classSet.add(cls);
+            }
+        }
+        return classSet;
     }
 }
