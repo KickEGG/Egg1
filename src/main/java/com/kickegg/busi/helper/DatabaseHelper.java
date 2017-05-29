@@ -230,4 +230,21 @@ public final class DatabaseHelper {
     private static String getTableName(Class<?> entityClass) {
         return entityClass.getSimpleName();
     }
+
+    /**
+     * 开启事务
+     */
+    public static void beginTransaction() {
+        Connection conn = getConnection();
+        if (conn != null) {
+            try {
+                conn.setAutoCommit(false);
+            } catch (SQLException e) {
+                LOGGER.error("Begin Transaction failure",e);
+                throw new RuntimeException(e);
+            } finally {
+                CONNECTION_HOLDER.set(conn);
+            }
+        }
+    }
 }

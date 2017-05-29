@@ -2,6 +2,8 @@ package com.kickegg.busi.service;
 
 import com.kickegg.busi.helper.DatabaseHelper;
 import com.kickegg.busi.model.Customer;
+import com.kickegg.framework.annotation.Service;
+import com.kickegg.framework.annotation.Transation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +14,7 @@ import java.util.Map;
 /**
  * 提供客户数据服务
  */
+@Service
 public class CustomerService {
     /*private static final String DRIVER;
     private static final String URL;
@@ -53,6 +56,7 @@ public class CustomerService {
     /**
      * 创建客户
      */
+    @Transation
     public boolean createCustomer(Map<String, Object> fieldMap) {
         return DatabaseHelper.insertEntity(Customer.class, fieldMap);
     }
@@ -60,6 +64,7 @@ public class CustomerService {
     /**
      * 更新客户
      */
+    @Transation
     public boolean updateCustomer(long id, Map<String, Object> fieldMap) {
         return DatabaseHelper.updateEntity(Customer.class, id, fieldMap);
     }
@@ -67,6 +72,7 @@ public class CustomerService {
     /**
      * 删除客户
      */
+    @Transation
     public boolean deleteCustomer(long id) {
         return DatabaseHelper.deleteEntity(Customer.class, id);
     }
